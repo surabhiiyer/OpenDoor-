@@ -1,0 +1,32 @@
+
+You can run the file as follows, "python generate_data.py".
+
+Part 1: Proximity search
+Write a function or class that accepts a home as input, and returns its n most similar listings based on 10,000 data points from generate_data.generate_datum. The schema of a home is
+
+Home = namedtuple(Home',
+                  ['num_bedrooms', 'num_bathrooms', 'living_area', 'lat', 'lon',
+                   'exterior_stories', 'pool', 'dwelling_type'])
+
+You can choose to define your own similarity measure. A good start would be “homes near the subject home with the same dwelling type.”
+
+
+There are comments in the file,  generate_data.py that explains the code. I used a data frame to store all the 10,000 data points that were generated. I used the euclidian distance to measure how similar the houses are (Calculated euclidian distance between the latitude and longitude). I used the query that was given in the problem statement. Modifications in the query can be made by changing the parameters in the groupby function in line 92. You can also select the correct fields you want to use to calculate the euclidian distance. Numeric fields are prefered. 
+
+I thought about using the K-Nearest Neighbours approach. It made sense if you wanted to predict one of the fileds in the schema. Since we are looking for search results, I figured it was easier to calculate the eculidian distance for all of the point. Of course there might be various disadvantages of this approach since it is calculating the euclidiance distance for each of the 10000 data points. 
+
+--------------------
+
+Part 2: Productionizing
+Suppose we are developing a production system to answer the query above, and we are constantly ingesting Listing data.
+How would you persist the data?
+What are some optimizations to make sure the query returns quickly, and how does it depend on the way data is persisted?
+How would you change your approach if the number of data points increases by 10x? 100x? 1000x?
+
+Data Persistance can be achieved by storing the listings in a NoSQL databases. There are various advantages of using No-SQL is that it offers high performance, low latency and it is highly scalable. Using key-value stores may be the fastest way to access data. 
+
+The queries can return quicker if a cache like Redis is maintained. 
+
+In order for the query to return quickly you can use MapReduce to access the data and retieve it faster. It also helps in scaling 10x, 100x and 1000x and even more. 
+
+----------------------
